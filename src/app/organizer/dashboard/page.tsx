@@ -56,6 +56,8 @@ export default function OrganizerDashboardPage() {
       fetchDashboardData();
 
       const socket = getSocket();
+      if (!socket) return;
+
       // Listen for registration updates to refresh stats
       const handleNewReg = (reg: any) => {
         setLiveAlert(`New registration: ${reg.volunteer?.name} for "${reg.event?.title}"`);
@@ -333,3 +335,4 @@ export default function OrganizerDashboardPage() {
     </div>
   );
 }
+

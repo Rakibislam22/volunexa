@@ -30,10 +30,15 @@ class ApiService {
       },
     });
 
-    const data = await response.json();
+    let data: any = {};
+    try {
+      data = await response.json();
+    } catch {
+      data = { message: response.statusText || "Server response error" };
+    }
 
     if (!response.ok) {
-      throw new Error(data.message || "An error occurred with the request");
+      throw new Error(data.message || `Request failed with status ${response.status}`);
     }
 
     return data;
@@ -229,3 +234,4 @@ class ApiService {
 }
 
 export const api = new ApiService();
+

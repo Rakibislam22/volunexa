@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
@@ -28,9 +28,14 @@ export const Navbar: React.FC = () => {
   const { notifications, unreadCount, markAllAsRead, isConnected } = useSocket();
   const pathname = usePathname();
 
+  const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const isActive = (path: string) => pathname === path;
 
@@ -76,7 +81,7 @@ export const Navbar: React.FC = () => {
               Explore Events
             </Link>
 
-            {isOrganizer && (
+            {mounted && isOrganizer && (
               <>
                 <Link
                   href="/organizer/dashboard"
@@ -111,7 +116,7 @@ export const Navbar: React.FC = () => {
               </>
             )}
 
-            {isVolunteer && (
+            {mounted && isVolunteer && (
               <>
                 <Link
                   href="/volunteer/dashboard"
@@ -151,10 +156,10 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center gap-2.5 sm:gap-3.5">
             {/* Realtime Live Pulse Badge */}
             <div
-              title={isConnected ? "Realtime connected" : "Connecting realtime..."}
+              title={mounted && isConnected ? "Realtime connected" : "Connecting realtime..."}
               className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800"
             >
-              <span className={`w-2 h-2 rounded-full ${isConnected ? "bg-emerald-500 animate-pulse" : "bg-amber-400"}`} />
+              <span className={`w-2 h-2 rounded-full ${mounted && isConnected ? "bg-emerald-500 animate-pulse" : "bg-amber-400"}`} />
               <span>Live</span>
             </div>
 
@@ -164,7 +169,7 @@ export const Navbar: React.FC = () => {
               aria-label="Toggle theme"
               className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
-              {theme === "dark" ? (
+              {mounted && theme === "dark" ? (
                 <Sun className="w-5 h-5 text-amber-400" />
               ) : (
                 <Moon className="w-5 h-5 text-slate-600" />
@@ -172,7 +177,7 @@ export const Navbar: React.FC = () => {
             </button>
 
             {/* Realtime Notifications Dropdown */}
-            {isAuthenticated && (
+            {mounted && isAuthenticated && (
               <div className="relative">
                 <button
                   onClick={() => {
@@ -243,7 +248,7 @@ export const Navbar: React.FC = () => {
             )}
 
             {/* User Profile or Login/Register */}
-            {isAuthenticated ? (
+            {mounted && isAuthenticated ? (
               <div className="relative">
                 <button
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
@@ -382,7 +387,7 @@ export const Navbar: React.FC = () => {
             Explore Events
           </Link>
 
-          {isOrganizer && (
+          {mounted && isOrganizer && (
             <>
               <Link
                 href="/organizer/dashboard"
@@ -415,7 +420,7 @@ export const Navbar: React.FC = () => {
             </>
           )}
 
-          {isVolunteer && (
+          {mounted && isVolunteer && (
             <>
               <Link
                 href="/volunteer/dashboard"
@@ -452,3 +457,4 @@ export const Navbar: React.FC = () => {
     </header>
   );
 };
+

@@ -2,7 +2,11 @@ import { io, Socket } from "socket.io-client";
 
 let socket: Socket | null = null;
 
-export const getSocket = (): Socket => {
+export const getSocket = (): Socket | null => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
   if (!socket) {
     const SOCKET_URL =
       process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:5000";
@@ -26,20 +30,20 @@ export const getSocket = (): Socket => {
 
 export const joinEventRoom = (eventId: string) => {
   const s = getSocket();
-  s.emit("join:event", eventId);
+  if (s) s.emit("join:event", eventId);
 };
 
 export const leaveEventRoom = (eventId: string) => {
   const s = getSocket();
-  s.emit("leave:event", eventId);
+  if (s) s.emit("leave:event", eventId);
 };
 
 export const joinOrganizerRoom = (organizerId: string) => {
   const s = getSocket();
-  s.emit("join:organizer", organizerId);
+  if (s) s.emit("join:organizer", organizerId);
 };
 
 export const joinVolunteerRoom = (volunteerId: string) => {
   const s = getSocket();
-  s.emit("join:volunteer", volunteerId);
+  if (s) s.emit("join:volunteer", volunteerId);
 };

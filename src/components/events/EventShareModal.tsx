@@ -146,3 +146,4 @@ export const EventShareModal: React.FC<EventShareModalProps> = ({
     </div>
   );
 };
+

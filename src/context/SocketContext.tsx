@@ -36,6 +36,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const socket = getSocket();
+    if (!socket) return;
 
     const handleConnect = () => setIsConnected(true);
     const handleDisconnect = () => setIsConnected(false);
@@ -144,3 +145,4 @@ export const useSocket = () => {
   }
   return context;
 };
+

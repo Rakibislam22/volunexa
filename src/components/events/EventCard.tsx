@@ -37,6 +37,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event: initialEvent, onSha
   // Real-time socket listener for slot updates
   useEffect(() => {
     const socket = getSocket();
+    if (!socket) return;
 
     const handleSlotUpdate = (data: {
       eventId: string;

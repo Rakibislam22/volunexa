@@ -18,7 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className="h-full antialiased">
-      <body className="min-h-full flex flex-col bg-[#f8fafc] dark:bg-[#090e13] text-slate-900 dark:text-slate-100 transition-colors">
+      <body
+        suppressHydrationWarning
+        className="min-h-full flex flex-col bg-[#f8fafc] dark:bg-[#090e13] text-slate-900 dark:text-slate-100 transition-colors"
+      >
         <ClientProviders>{children}</ClientProviders>
       </body>
     </html>

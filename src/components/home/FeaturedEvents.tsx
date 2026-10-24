@@ -32,6 +32,8 @@ export const FeaturedEvents: React.FC = () => {
 
     // Listen for new events in realtime
     const socket = getSocket();
+    if (!socket) return;
+
     socket.on("event:created", (newEvent: EventItem) => {
       setEvents((prev) => [newEvent, ...prev.slice(0, 5)]);
     });
@@ -107,3 +109,4 @@ export const FeaturedEvents: React.FC = () => {
     </section>
   );
 };
+

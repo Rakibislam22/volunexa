@@ -99,6 +99,8 @@ function EventDetailsContent() {
       joinEventRoom(id);
 
       const socket = getSocket();
+      if (!socket) return;
+
       const handleSlotUpdate = (data: {
         eventId: string;
         registeredCount: number;

@@ -94,3 +94,4 @@ export interface VolunteerStatusStat {
   status: RegistrationStatus;
   count: number;
 }
+
