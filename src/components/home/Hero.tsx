@@ -40,18 +40,21 @@ export const Hero: React.FC = () => {
 
   return (
     <section className="relative min-h-[520px] md:min-h-[620px] flex items-center justify-center overflow-hidden bg-[#001f20]">
-      {/* Background Image with Dark Vignette & Ambient Teal/Violet Glow */}
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-90 mix-blend-luminosity scale-105 transform transition-transform duration-1000"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=2000&q=80')",
-        }}
-      />
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        className="absolute inset-0 w-full h-full object-cover scale-105 pointer-events-none"
+      >
+        <source src="/video.webm" type="video/webm" />
+      </video>
 
-      {/* Atmospheric Gradients matching Theme_Image.png */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#00191a]/90 via-[#002a2c]/85 to-[#00191a]/95" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00494B]/40 via-purple-900/20 to-transparent" />
+      {/* Atmospheric Gradients matching Brand Aesthetic & High Contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#00191a]/85 via-[#002a2c]/75 to-[#00191a]/95 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00494B]/35 via-transparent to-black/40 pointer-events-none" />
 
       {/* Hero Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
