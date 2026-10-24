@@ -44,24 +44,24 @@ export const FeaturedEvents: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-white dark:bg-slate-900 transition-colors">
+    <section className="py-20 bg-slate-50/70 dark:bg-[#00191a] transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 text-xs font-bold text-[#00494B] dark:text-teal-400 uppercase tracking-wider mb-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800 text-xs font-bold text-[#00494B] dark:text-teal-300 uppercase tracking-wider mb-2">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Real-time Live Opportunities</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
               Featured Community Events
             </h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-sm text-slate-500 dark:text-teal-200/80 mt-1">
               Live capacity indicators update automatically when volunteers register.
             </p>
           </div>
           <Link
             href="/events"
-            className="mt-4 sm:mt-0 inline-flex items-center gap-1.5 text-sm font-bold text-[#00494B] dark:text-teal-400 hover:underline"
+            className="mt-4 sm:mt-0 inline-flex items-center gap-1.5 text-sm font-bold text-[#00494B] dark:text-teal-300 hover:underline"
           >
             <span>Browse All Events</span>
             <ArrowRight className="w-4 h-4" />
@@ -74,11 +74,11 @@ export const FeaturedEvents: React.FC = () => {
             <p className="text-sm font-medium">Loading live events...</p>
           </div>
         ) : events.length === 0 ? (
-          <div className="py-16 text-center rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-8">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">
+          <div className="py-16 text-center rounded-3xl bg-white dark:bg-[#002528] border border-slate-200 dark:border-teal-900/50 p-8 shadow-sm">
+            <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">
               No events found at the moment
             </h3>
-            <p className="text-xs text-slate-500 mt-1 mb-4">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-4">
               Be the first community organizer to publish an event!
             </p>
             <Link

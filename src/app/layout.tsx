@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className="h-full antialiased">
+    <html lang="en" suppressHydrationWarning className="dark h-full antialiased">
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -100,7 +100,7 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className="min-h-full flex flex-col bg-[#f8fafc] dark:bg-[#090e13] text-slate-900 dark:text-slate-100 transition-colors"
+        className="min-h-full flex flex-col bg-[#f8fafc] dark:bg-[#00191a] text-slate-900 dark:text-slate-100 transition-colors"
       >
         <ClientProviders>{children}</ClientProviders>
       </body>

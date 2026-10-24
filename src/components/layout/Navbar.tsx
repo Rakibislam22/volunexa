@@ -40,7 +40,7 @@ export const Navbar: React.FC = () => {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/90 dark:bg-[#0a1118]/90 border-b border-slate-200/80 dark:border-slate-800 transition-colors">
+    <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/95 dark:bg-[#00191a]/95 border-b border-slate-200/80 dark:border-teal-900/40 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18">
           {/* Logo */}
@@ -49,10 +49,10 @@ export const Navbar: React.FC = () => {
               <Calendar className="w-5 h-5 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tight text-[#00494B] dark:text-teal-400">
+              <span className="text-xl font-black tracking-tight text-[#00494B] dark:text-white">
                 VOLUNEXA
               </span>
-              <span className="text-[10px] uppercase tracking-widest font-semibold text-slate-500 dark:text-slate-400 -mt-1">
+              <span className="text-[10px] uppercase tracking-widest font-semibold text-slate-500 dark:text-teal-300 -mt-1">
                 Community Hub
               </span>
             </div>
@@ -64,8 +64,8 @@ export const Navbar: React.FC = () => {
               href="/"
               className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
                 isActive("/")
-                  ? "text-[#00494B] dark:text-teal-400 bg-teal-50/80 dark:bg-teal-950/30"
-                  : "text-slate-600 dark:text-slate-300 hover:text-[#00494B] dark:hover:text-teal-400"
+                  ? "text-[#00494B] dark:text-teal-300 bg-teal-50 dark:bg-white/10"
+                  : "text-slate-600 dark:text-slate-200 hover:text-[#00494B] dark:hover:text-white"
               }`}
             >
               Home
@@ -74,8 +74,8 @@ export const Navbar: React.FC = () => {
               href="/events"
               className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
                 isActive("/events")
-                  ? "text-[#00494B] dark:text-teal-400 bg-teal-50/80 dark:bg-teal-950/30"
-                  : "text-slate-600 dark:text-slate-300 hover:text-[#00494B] dark:hover:text-teal-400"
+                  ? "text-[#00494B] dark:text-teal-300 bg-teal-50 dark:bg-white/10"
+                  : "text-slate-600 dark:text-slate-200 hover:text-[#00494B] dark:hover:text-white"
               }`}
             >
               Explore Events
@@ -87,8 +87,8 @@ export const Navbar: React.FC = () => {
                   href="/organizer/dashboard"
                   className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
                     pathname.startsWith("/organizer/dashboard")
-                      ? "text-[#00494B] dark:text-teal-400 bg-teal-50/80 dark:bg-teal-950/30"
-                      : "text-slate-600 dark:text-slate-300 hover:text-[#00494B] dark:hover:text-teal-400"
+                      ? "text-[#00494B] dark:text-teal-300 bg-teal-50 dark:bg-white/10"
+                      : "text-slate-600 dark:text-slate-200 hover:text-[#00494B] dark:hover:text-white"
                   }`}
                 >
                   Dashboard
@@ -97,8 +97,8 @@ export const Navbar: React.FC = () => {
                   href="/organizer/events"
                   className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
                     pathname.startsWith("/organizer/events")
-                      ? "text-[#00494B] dark:text-teal-400 bg-teal-50/80 dark:bg-teal-950/30"
-                      : "text-slate-600 dark:text-slate-300 hover:text-[#00494B] dark:hover:text-teal-400"
+                      ? "text-[#00494B] dark:text-teal-300 bg-teal-50 dark:bg-white/10"
+                      : "text-slate-600 dark:text-slate-200 hover:text-[#00494B] dark:hover:text-white"
                   }`}
                 >
                   Manage Events
@@ -107,8 +107,8 @@ export const Navbar: React.FC = () => {
                   href="/organizer/analytics"
                   className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
                     pathname.startsWith("/organizer/analytics")
-                      ? "text-[#00494B] dark:text-teal-400 bg-teal-50/80 dark:bg-teal-950/30"
-                      : "text-slate-600 dark:text-slate-300 hover:text-[#00494B] dark:hover:text-teal-400"
+                      ? "text-[#00494B] dark:text-teal-300 bg-teal-50 dark:bg-white/10"
+                      : "text-slate-600 dark:text-slate-200 hover:text-[#00494B] dark:hover:text-white"
                   }`}
                 >
                   Analytics
@@ -122,8 +122,8 @@ export const Navbar: React.FC = () => {
                   href="/volunteer/dashboard"
                   className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
                     pathname.startsWith("/volunteer/dashboard")
-                      ? "text-[#00494B] dark:text-teal-400 bg-teal-50/80 dark:bg-teal-950/30"
-                      : "text-slate-600 dark:text-slate-300 hover:text-[#00494B] dark:hover:text-teal-400"
+                      ? "text-[#00494B] dark:text-teal-300 bg-teal-50 dark:bg-white/10"
+                      : "text-slate-600 dark:text-slate-200 hover:text-[#00494B] dark:hover:text-white"
                   }`}
                 >
                   My Hub
@@ -132,8 +132,8 @@ export const Navbar: React.FC = () => {
                   href="/volunteer/my-events"
                   className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
                     pathname.startsWith("/volunteer/my-events")
-                      ? "text-[#00494B] dark:text-teal-400 bg-teal-50/80 dark:bg-teal-950/30"
-                      : "text-slate-600 dark:text-slate-300 hover:text-[#00494B] dark:hover:text-teal-400"
+                      ? "text-[#00494B] dark:text-teal-300 bg-teal-50 dark:bg-white/10"
+                      : "text-slate-600 dark:text-slate-200 hover:text-[#00494B] dark:hover:text-white"
                   }`}
                 >
                   Registered Events
@@ -142,8 +142,8 @@ export const Navbar: React.FC = () => {
                   href="/volunteer/favorites"
                   className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
                     pathname.startsWith("/volunteer/favorites")
-                      ? "text-[#00494B] dark:text-teal-400 bg-teal-50/80 dark:bg-teal-950/30"
-                      : "text-slate-600 dark:text-slate-300 hover:text-[#00494B] dark:hover:text-teal-400"
+                      ? "text-[#00494B] dark:text-teal-300 bg-teal-50 dark:bg-white/10"
+                      : "text-slate-600 dark:text-slate-200 hover:text-[#00494B] dark:hover:text-white"
                   }`}
                 >
                   Favorites
@@ -344,13 +344,13 @@ export const Navbar: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Link
                   href="/login"
-                  className="px-3.5 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-[#00494B] dark:hover:text-teal-400 transition-colors"
+                  className="px-3.5 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-[#00494B] dark:hover:text-white transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/register"
-                  className="px-4 py-2 text-sm font-bold text-white bg-[#00494B] hover:bg-[#003739] rounded-xl shadow-md shadow-[#00494B]/20 transition-all hover:scale-[1.02]"
+                  className="px-4 py-2 text-sm font-bold text-white bg-[#00494B] hover:bg-[#003739] border border-teal-500/30 rounded-xl shadow-md shadow-[#00494B]/20 transition-all hover:scale-[1.02]"
                 >
                   Join Us
                 </Link>

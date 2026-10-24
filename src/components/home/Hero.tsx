@@ -74,33 +74,33 @@ export const Hero: React.FC = () => {
         {/* Unified Pill Search Bar (Matching Theme_Image.png) */}
         <form
           onSubmit={handleSearch}
-          className="max-w-4xl mx-auto bg-white dark:bg-slate-900 rounded-2xl md:rounded-full p-2 sm:p-2.5 shadow-2xl border border-white/20 flex flex-col md:flex-row items-center gap-2"
+          className="max-w-4xl mx-auto bg-white rounded-2xl md:rounded-full p-2 sm:p-2.5 shadow-2xl border border-white/30 flex flex-col md:flex-row items-center gap-2"
         >
           {/* Keyword Input */}
-          <div className="flex-1 w-full flex items-center gap-3 px-4 py-2 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-800">
+          <div className="flex-1 w-full flex items-center gap-3 px-4 py-2 border-b md:border-b-0 md:border-r border-slate-200">
             <Search className="w-5 h-5 text-slate-400 shrink-0" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="What are you looking for?"
-              className="w-full bg-transparent text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none"
+              className="w-full bg-transparent text-sm text-slate-800 placeholder-slate-400 focus:outline-none"
             />
           </div>
 
           {/* Location Dropdown */}
-          <div className="w-full md:w-48 flex items-center gap-2 px-4 py-2 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-800">
+          <div className="w-full md:w-48 flex items-center gap-2 px-4 py-2 border-b md:border-b-0 md:border-r border-slate-200">
             <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
             <select
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="w-full bg-transparent text-xs font-medium text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer"
+              className="w-full bg-transparent text-xs font-medium text-slate-700 focus:outline-none cursor-pointer"
             >
-              <option value="">All Locations</option>
-              <option value="Dhaka">Dhaka</option>
-              <option value="Chittagong">Chittagong</option>
-              <option value="Sylhet">Sylhet</option>
-              <option value="Cox's Bazar">Cox&apos;s Bazar</option>
+              <option value="" className="bg-white text-slate-800">All Locations</option>
+              <option value="Dhaka" className="bg-white text-slate-800">Dhaka</option>
+              <option value="Chittagong" className="bg-white text-slate-800">Chittagong</option>
+              <option value="Sylhet" className="bg-white text-slate-800">Sylhet</option>
+              <option value="Cox's Bazar" className="bg-white text-slate-800">Cox&apos;s Bazar</option>
             </select>
           </div>
 
@@ -110,17 +110,17 @@ export const Hero: React.FC = () => {
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full bg-transparent text-xs font-medium text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer"
+              className="w-full bg-transparent text-xs font-medium text-slate-700 focus:outline-none cursor-pointer"
             >
-              <option value="">All Categories</option>
-              <option value="environment">Environment</option>
-              <option value="education">Education</option>
-              <option value="health">Health</option>
-              <option value="community">Community</option>
-              <option value="technology">Technology</option>
-              <option value="sports">Sports</option>
-              <option value="arts">Arts</option>
-              <option value="charity">Charity</option>
+              <option value="" className="bg-white text-slate-800">All Categories</option>
+              <option value="environment" className="bg-white text-slate-800">Environment</option>
+              <option value="education" className="bg-white text-slate-800">Education</option>
+              <option value="health" className="bg-white text-slate-800">Health</option>
+              <option value="community" className="bg-white text-slate-800">Community</option>
+              <option value="technology" className="bg-white text-slate-800">Technology</option>
+              <option value="sports" className="bg-white text-slate-800">Sports</option>
+              <option value="arts" className="bg-white text-slate-800">Arts</option>
+              <option value="charity" className="bg-white text-slate-800">Charity</option>
             </select>
           </div>
 

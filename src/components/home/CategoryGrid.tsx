@@ -73,11 +73,11 @@ export const CategoryGrid: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 bg-slate-50/50 dark:bg-[#070c10] transition-colors">
+    <section className="py-20 bg-white dark:bg-[#002427] border-y border-slate-200/80 dark:border-teal-900/50 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 text-xs font-bold text-[#00494B] dark:text-teal-400 uppercase tracking-wider mb-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800 text-xs font-bold text-[#00494B] dark:text-teal-300 uppercase tracking-wider mb-2">
               Popular Focus Areas
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -86,7 +86,7 @@ export const CategoryGrid: React.FC = () => {
           </div>
           <Link
             href="/events"
-            className="mt-4 sm:mt-0 inline-flex items-center gap-1.5 text-sm font-bold text-[#00494B] dark:text-teal-400 hover:underline"
+            className="mt-4 sm:mt-0 inline-flex items-center gap-1.5 text-sm font-bold text-[#00494B] dark:text-teal-300 hover:underline"
           >
             <span>View All Categories</span>
             <ArrowRight className="w-4 h-4" />
@@ -100,7 +100,7 @@ export const CategoryGrid: React.FC = () => {
               <Link
                 key={cat.key}
                 href={`/events?category=${cat.key}`}
-                className="group p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-teal-500/50 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                className="group p-6 rounded-2xl bg-slate-50 dark:bg-[#001d1f] border border-slate-200/90 dark:border-teal-900/60 hover:border-teal-500/50 dark:hover:border-teal-400/50 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   <div
@@ -108,14 +108,14 @@ export const CategoryGrid: React.FC = () => {
                   >
                     <Icon className="w-6 h-6" />
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-[#00494B] dark:group-hover:text-teal-400 transition-colors">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-[#00494B] dark:group-hover:text-teal-300 transition-colors">
                     {cat.name}
                   </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                  <p className="text-xs text-slate-500 dark:text-teal-200/70 mt-1 leading-relaxed">
                     {cat.description}
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-slate-400 group-hover:text-[#00494B] dark:group-hover:text-teal-400">
+                <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-teal-900/60 flex items-center justify-between text-xs font-semibold text-slate-400 group-hover:text-[#00494B] dark:group-hover:text-teal-300">
                   <span>Browse events</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>

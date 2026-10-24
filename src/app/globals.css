@@ -21,11 +21,11 @@
 }
 
 .dark {
-  --background: #090e13;
+  --background: #00191a;
   --foreground: #f1f5f9;
-  --card: #111922;
+  --card: #002528;
   --card-foreground: #f8fafc;
-  --border: #1e293b;
+  --border: #00383b;
 }
 
 body {
