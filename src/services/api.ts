@@ -231,6 +231,48 @@ class ApiService {
       `/favorites/check/${eventId}`
     );
   }
+
+  // Notifications Endpoints
+  async getNotifications(page = 1, limit = 30) {
+    return this.request<{
+      success: boolean;
+      count: number;
+      total: number;
+      unreadCount: number;
+      notifications: any[];
+    }>(`/notifications?page=${page}&limit=${limit}`);
+  }
+
+  async markNotificationsAsRead(ids?: string[]) {
+    return this.request<{
+      success: boolean;
+      message: string;
+      unreadCount: number;
+    }>("/notifications/mark-read", {
+      method: "PUT",
+      body: JSON.stringify({ ids }),
+    });
+  }
+
+  async deleteNotification(id: string) {
+    return this.request<{
+      success: boolean;
+      message: string;
+      unreadCount: number;
+    }>(`/notifications/${id}`, {
+      method: "DELETE",
+    });
+  }
+
+  async clearAllNotifications() {
+    return this.request<{
+      success: boolean;
+      message: string;
+      unreadCount: number;
+    }>("/notifications/clear-all", {
+      method: "DELETE",
+    });
+  }
 }
 
 export const api = new ApiService();

@@ -20,12 +20,26 @@ import {
   Heart,
   PlusCircle,
   Radio,
+  Trash2,
+  CheckCheck,
+  ExternalLink,
 } from "lucide-react";
 
 export const Navbar: React.FC = () => {
   const { user, isAuthenticated, logout, isOrganizer, isVolunteer } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const { notifications, unreadCount, markAllAsRead, isConnected } = useSocket();
+  const {
+    notifications,
+    unreadCount,
+    activeToast,
+    dismissToast,
+    markAllAsRead,
+    deleteNotification,
+    clearNotifications,
+    pushPermission,
+    requestPushPermission,
+    isConnected,
+  } = useSocket();
   const pathname = usePathname();
 
   const [mounted, setMounted] = useState(false);
@@ -36,6 +50,21 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const formatTimeAgo = (dateStr: string) => {
+    try {
+      const diff = Date.now() - new Date(dateStr).getTime();
+      const minutes = Math.floor(diff / 60000);
+      if (minutes < 1) return "Just now";
+      if (minutes < 60) return `${minutes}m ago`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h ago`;
+      const days = Math.floor(hours / 24);
+      return `${days}d ago`;
+    } catch {
+      return "Recent";
+    }
+  };
 
   const isActive = (path: string) => pathname === path;
 
@@ -200,45 +229,127 @@ export const Navbar: React.FC = () => {
 
                 {/* Notifications Menu */}
                 {notifDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden z-50">
-                    <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                  <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-white dark:bg-[#002528] shadow-2xl border border-slate-200 dark:border-teal-900/40 overflow-hidden z-50">
+                    <div className="p-3.5 bg-slate-50 dark:bg-[#001f21] border-b border-slate-200 dark:border-teal-900/40 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Bell className="w-4 h-4 text-[#00494B] dark:text-teal-400" />
-                        <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                          Live Notifications
+                        <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100">
+                          Notifications
                         </h4>
+                        {unreadCount > 0 && (
+                          <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-[#FF4B72] text-white">
+                            {unreadCount} new
+                          </span>
+                        )}
                       </div>
-                      <span className="text-xs text-slate-500 font-medium">
-                        {notifications.length} updates
-                      </span>
+                      <div className="flex items-center gap-2">
+                        {unreadCount > 0 && (
+                          <button
+                            onClick={() => markAllAsRead()}
+                            title="Mark all as read"
+                            className="p-1 text-xs text-teal-600 dark:text-teal-300 hover:text-teal-700 dark:hover:text-teal-200 flex items-center gap-1 font-medium transition-colors cursor-pointer"
+                          >
+                            <CheckCheck className="w-3.5 h-3.5" />
+                            <span className="hidden sm:inline">Mark read</span>
+                          </button>
+                        )}
+                        {notifications.length > 0 && (
+                          <button
+                            onClick={() => clearNotifications()}
+                            title="Clear all notifications"
+                            className="p-1 text-xs text-slate-400 hover:text-rose-500 transition-colors cursor-pointer"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
+                    {/* Desktop Push Banner */}
+                    {pushPermission === "default" && (
+                      <div className="p-3 bg-teal-50 dark:bg-teal-950/40 border-b border-teal-100 dark:border-teal-900/30 flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-base">🔔</span>
+                          <div className="text-[11px] text-teal-900 dark:text-teal-200 leading-tight">
+                            <span className="font-semibold block">Enable Desktop Push</span>
+                            Get alerts even when browser is in background
+                          </div>
+                        </div>
+                        <button
+                          onClick={async () => {
+                            await requestPushPermission();
+                          }}
+                          className="px-2.5 py-1 text-[11px] font-bold text-white bg-[#00494B] hover:bg-[#003739] rounded-lg transition-colors whitespace-nowrap cursor-pointer shadow-sm"
+                        >
+                          Enable
+                        </button>
+                      </div>
+                    )}
+
+                    <div className="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-teal-900/20">
                       {notifications.length === 0 ? (
-                        <div className="p-6 text-center text-sm text-slate-500">
-                          No notifications yet. Real-time updates will appear here!
+                        <div className="p-8 text-center text-sm text-slate-500 dark:text-slate-400">
+                          <Bell className="w-8 h-8 mx-auto text-slate-300 dark:text-teal-900/50 mb-2" />
+                          No notifications yet.
+                          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+                            Real-time server events will appear here!
+                          </p>
                         </div>
                       ) : (
                         notifications.map((n) => (
                           <div
-                            key={n.id}
-                            className={`p-3.5 transition-colors ${
-                              n.read
-                                ? "bg-white dark:bg-slate-900"
-                                : "bg-teal-50/50 dark:bg-teal-950/20"
+                            key={n._id}
+                            className={`p-3.5 transition-colors group relative ${
+                              n.isRead
+                                ? "bg-white dark:bg-[#002528] opacity-75"
+                                : "bg-teal-50/40 dark:bg-teal-950/20 font-medium"
                             }`}
                           >
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                                {n.title}
-                              </span>
-                              <span className="text-[10px] text-slate-400">
-                                {n.timestamp}
-                              </span>
+                            <div className="flex items-start justify-between gap-2 mb-1">
+                              <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                                <span
+                                  className={`w-2 h-2 rounded-full shrink-0 ${
+                                    n.type === "success"
+                                      ? "bg-emerald-500"
+                                      : n.type === "warning"
+                                      ? "bg-amber-500"
+                                      : n.type === "alert"
+                                      ? "bg-rose-500"
+                                      : "bg-teal-500"
+                                  }`}
+                                />
+                                <span className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">
+                                  {n.title}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="text-[10px] text-slate-400 dark:text-teal-300/60">
+                                  {formatTimeAgo(n.createdAt)}
+                                </span>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    deleteNotification(n._id);
+                                  }}
+                                  className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-rose-500 transition-opacity p-0.5 cursor-pointer"
+                                  title="Delete"
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                </button>
+                              </div>
                             </div>
-                            <p className="text-xs text-slate-600 dark:text-slate-300">
+                            <p className="text-xs text-slate-600 dark:text-slate-300 pr-4">
                               {n.message}
                             </p>
+                            {n.relatedEvent?._id && (
+                              <Link
+                                href={`/events/${n.relatedEvent._id}`}
+                                onClick={() => setNotifDropdownOpen(false)}
+                                className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#00494B] dark:text-teal-300 hover:underline mt-1.5"
+                              >
+                                View Event <ExternalLink className="w-3 h-3" />
+                              </Link>
+                            )}
                           </div>
                         ))
                       )}
@@ -453,6 +564,51 @@ export const Navbar: React.FC = () => {
               </Link>
             </>
           )}
+        </div>
+      )}
+
+      {/* Real-time Server Push In-App Toast Alert */}
+      {activeToast && (
+        <div className="fixed top-20 right-4 sm:right-6 z-[9999] max-w-sm w-full bg-white dark:bg-[#002528] rounded-2xl shadow-2xl border border-teal-500/40 p-4 transition-all duration-300">
+          <div className="flex items-start gap-3">
+            <div
+              className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-sm ${
+                activeToast.type === "success"
+                  ? "bg-emerald-100 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400"
+                  : activeToast.type === "warning"
+                  ? "bg-amber-100 dark:bg-amber-950/70 text-amber-600 dark:text-amber-400"
+                  : activeToast.type === "alert"
+                  ? "bg-rose-100 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400"
+                  : "bg-teal-100 dark:bg-teal-950/70 text-teal-600 dark:text-teal-400"
+              }`}
+            >
+              <Bell className="w-4 h-4" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h5 className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                {activeToast.title}
+              </h5>
+              <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 line-clamp-2">
+                {activeToast.message}
+              </p>
+              {activeToast.relatedEvent?._id && (
+                <Link
+                  href={`/events/${activeToast.relatedEvent._id}`}
+                  onClick={dismissToast}
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-[#00494B] dark:text-teal-300 hover:underline mt-1.5"
+                >
+                  View Details &rarr;
+                </Link>
+              )}
+            </div>
+            <button
+              onClick={dismissToast}
+              className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded-lg cursor-pointer"
+              title="Dismiss"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       )}
     </header>

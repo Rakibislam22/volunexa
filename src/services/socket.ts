@@ -47,3 +47,8 @@ export const joinVolunteerRoom = (volunteerId: string) => {
   const s = getSocket();
   if (s) s.emit("join:volunteer", volunteerId);
 };
+
+export const joinUserRoom = (userId: string) => {
+  const s = getSocket();
+  if (s) s.emit("join:user", userId);
+};
