@@ -264,19 +264,19 @@ function EventDetailsContent() {
     isOrganizer && user?._id && event.organizer && String(event.organizer._id) === String(user._id);
 
   return (
-    <div className="min-h-screen py-10 bg-slate-50/50 dark:bg-[#070c10] transition-colors">
+    <div className="min-h-screen py-10 bg-[#f8fafc] dark:bg-[#00191a] transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Link */}
         <Link
           href="/events"
-          className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-[#00494B] dark:hover:text-teal-400 mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-[#00494B] dark:hover:text-teal-300 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to All Events</span>
         </Link>
 
         {/* Hero Banner with Details */}
-        <div className="relative rounded-3xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md mb-8">
+        <div className="relative rounded-3xl overflow-hidden bg-white dark:bg-[#002528] border border-slate-200/90 dark:border-teal-900/60 shadow-md mb-8">
           <div
             className="h-64 sm:h-80 md:h-96 w-full bg-cover bg-center relative"
             style={{

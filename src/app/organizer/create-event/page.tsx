@@ -110,7 +110,7 @@ export default function CreateEventPage() {
   };
 
   return (
-    <div className="min-h-screen py-10 bg-slate-50/50 dark:bg-[#070c10] transition-colors">
+    <div className="min-h-screen py-10 bg-[#f8fafc] dark:bg-[#00191a] transition-colors">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Link */}
         <Link

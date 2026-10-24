@@ -84,20 +84,20 @@ function EventsContent() {
   const hasActiveFilters = !!searchTerm || !!category || !!location || dateFilter !== "upcoming";
 
   return (
-    <div className="min-h-screen py-10 bg-slate-50/50 dark:bg-[#070c10] transition-colors">
+    <div className="min-h-screen py-10 bg-[#f8fafc] dark:bg-[#00191a] transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
             Discover Community Events
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-sm text-slate-500 dark:text-teal-200/70 mt-1">
             Browse upcoming opportunities, check live volunteer capacity, and participate!
           </p>
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-sm border border-slate-200/90 dark:border-slate-800 mb-8 space-y-4">
+        <div className="bg-white dark:bg-[#002528] rounded-3xl p-5 shadow-sm border border-slate-200/90 dark:border-teal-900/60 mb-8 space-y-4">
           <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-3">
             {/* Search Keyword */}
             <div className="md:col-span-2 relative">
@@ -107,7 +107,7 @@ function EventsContent() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search by event title, location, or keywords..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00494B]"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-teal-900/60 bg-slate-50 dark:bg-[#001e21] text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00494B]"
               />
             </div>
 
@@ -119,7 +119,7 @@ function EventsContent() {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="Filter by city/location"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00494B]"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-teal-900/60 bg-slate-50 dark:bg-[#001e21] text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00494B]"
               />
             </div>
 
@@ -127,7 +127,7 @@ function EventsContent() {
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="flex-1 py-2.5 px-4 rounded-xl bg-[#00494B] hover:bg-[#00383a] text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
+                className="flex-1 py-2.5 px-4 rounded-xl bg-[#00494B] hover:bg-[#00383a] text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 border border-teal-500/30"
               >
                 <Search className="w-4 h-4" />
                 <span>Search</span>
@@ -137,7 +137,7 @@ function EventsContent() {
                   type="button"
                   onClick={handleResetFilters}
                   title="Reset filters"
-                  className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="p-2.5 rounded-xl border border-slate-200 dark:border-teal-900/60 text-slate-500 dark:text-teal-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
