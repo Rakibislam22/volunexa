@@ -22,7 +22,7 @@ export const FeaturedEvents: React.FC = () => {
           setEvents(res.events);
         }
       } catch (err) {
-        console.error("Failed to load featured events:", err);
+        console.warn("Featured events unavailable (ensure backend is running on port 5000):", err);
       } finally {
         setLoading(false);
       }

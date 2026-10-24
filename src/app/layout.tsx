@@ -77,13 +77,21 @@ export default function RootLayout({
                       var arg = arguments[i];
                       if (
                         typeof arg === 'string' &&
-                        (arg.indexOf('bis_skin_checked') !== -1 || arg.indexOf('bis_register') !== -1)
+                        (arg.indexOf('bis_skin_checked') !== -1 || arg.indexOf('bis_register') !== -1 || arg.indexOf('M_ID') !== -1)
                       ) {
                         return;
                       }
                     }
                     return origError.apply(console, arguments);
                   };
+
+                  // 5. Intercept unhandled extension promise rejections (e.g. IDM / third-party M_ID)
+                  window.addEventListener('unhandledrejection', function(event) {
+                    var msg = (event && event.reason && (event.reason.message || String(event.reason))) || '';
+                    if (msg.indexOf('M_ID') !== -1 || msg.indexOf('bis_skin_checked') !== -1) {
+                      if (event.preventDefault) event.preventDefault();
+                    }
+                  });
                 } catch(e) {}
               })();
             `,
