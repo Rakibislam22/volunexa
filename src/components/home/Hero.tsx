@@ -39,7 +39,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-[560px] md:min-h-[620px] flex items-center justify-center overflow-hidden bg-[#001f20]">
+    <section className="relative min-h-[520px] md:min-h-[620px] flex items-center justify-center overflow-hidden bg-[#001f20]">
       {/* Background Image with Dark Vignette & Ambient Teal/Violet Glow */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity scale-105 transform transition-transform duration-1000"
