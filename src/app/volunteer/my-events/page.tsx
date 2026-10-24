@@ -30,6 +30,11 @@ export default function MyEventsPage() {
   const [cancellingId, setCancellingId] = useState<string | null>(null);
   const [selectedQRReg, setSelectedQRReg] = useState<Registration | null>(null);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [nowTime, setNowTime] = useState<number>(0);
+
+  useEffect(() => {
+    setNowTime(Date.now());
+  }, []);
 
   useEffect(() => {
     if (!authLoading && !isVolunteer) {
@@ -99,20 +104,16 @@ export default function MyEventsPage() {
     );
   }
 
-  const [nowTime, setNowTime] = useState<number>(0);
-
-  useEffect(() => {
-    setNowTime(Date.now());
-  }, []);
-
   const upcomingList = registrations.filter((r) => {
     const evt = r.event as EventItem;
-    return evt && new Date(evt.date).getTime() >= nowTime;
+    if (!evt || !evt.date) return false;
+    return new Date(evt.date).getTime() >= (nowTime || 0);
   });
 
   const pastList = registrations.filter((r) => {
     const evt = r.event as EventItem;
-    return evt && new Date(evt.date).getTime() < nowTime;
+    if (!evt || !evt.date) return false;
+    return new Date(evt.date).getTime() < (nowTime || 0);
   });
 
   const displayedList = tab === "upcoming" ? upcomingList : pastList;
@@ -225,13 +226,15 @@ export default function MyEventsPage() {
               const evt = reg.event as EventItem;
               if (!evt) return null;
 
-              const eventDate = new Date(evt.date);
-              const formattedDate = eventDate.toLocaleDateString("en-US", {
-                weekday: "short",
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              });
+              const eventDate = evt.date ? new Date(evt.date) : new Date(0);
+              const formattedDate = evt.date
+                ? eventDate.toLocaleDateString("en-US", {
+                    weekday: "short",
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })
+                : "TBD";
               const isPast = eventDate.getTime() < nowTime;
               const isCancelled = reg.status === "cancelled";
               const isBusy = cancellingId === reg._id;

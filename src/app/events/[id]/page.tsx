@@ -33,7 +33,8 @@ import {
 } from "lucide-react";
 
 function EventDetailsContent() {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams();
+  const id = typeof params?.id === "string" ? params.id : Array.isArray(params?.id) ? params.id[0] : "";
   const router = useRouter();
   const { user, isAuthenticated, isOrganizer, isVolunteer } = useAuth();
 
@@ -52,6 +53,15 @@ function EventDetailsContent() {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
+  const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
+
+  useEffect(() => {
+    if (event?.registrationDeadline) {
+      setIsDeadlinePassed(
+        new Date().getTime() > new Date(event.registrationDeadline).getTime()
+      );
+    }
+  }, [event?.registrationDeadline]);
 
   // Fetch event details
   const fetchEventData = async () => {
@@ -238,27 +248,23 @@ function EventDetailsContent() {
       : Math.max(0, event.maxCapacity - event.registeredCount);
 
   const isFull = availableSlots <= 0 || event.registeredCount >= event.maxCapacity;
-  const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
 
-  useEffect(() => {
-    if (event?.registrationDeadline) {
-      setIsDeadlinePassed(new Date().getTime() > new Date(event.registrationDeadline).getTime());
-    }
-  }, [event?.registrationDeadline]);
-  const formattedDate = new Date(event.date).toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-  const formattedDeadline = new Date(event.registrationDeadline).toLocaleDateString(
-    "en-US",
-    {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }
-  );
+  const formattedDate = event.date
+    ? new Date(event.date).toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "Date TBD";
+
+  const formattedDeadline = event.registrationDeadline
+    ? new Date(event.registrationDeadline).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "Deadline TBD";
 
   const isEventOwner =
     isOrganizer && user?._id && event.organizer && String(event.organizer._id) === String(user._id);
@@ -339,7 +345,7 @@ function EventDetailsContent() {
           {/* Left Column: Event Details & Description */}
           <div className="lg:col-span-2 space-y-8">
             {/* Description */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#002528] border border-slate-200/90 dark:border-teal-900/60 shadow-sm">
               <h3 className="text-lg font-black text-slate-900 dark:text-white mb-4">
                 About This Event
               </h3>
@@ -349,15 +355,15 @@ function EventDetailsContent() {
 
               {/* Required Skills */}
               {event.requiredSkills && event.requiredSkills.length > 0 && (
-                <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
+                <div className="mt-8 pt-6 border-t border-slate-100 dark:border-teal-900/60">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-teal-300 mb-3">
                     Desired Volunteer Skills & Roles
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {event.requiredSkills.map((skill, idx) => (
                       <span
                         key={idx}
-                        className="px-3 py-1.5 rounded-xl bg-teal-50 dark:bg-teal-950/40 text-xs font-bold text-[#00494B] dark:text-teal-300 border border-teal-200 dark:border-teal-800"
+                        className="px-3 py-1.5 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-xs font-bold text-[#00494B] dark:text-teal-300 border border-teal-200 dark:border-teal-800/60"
                       >
                         {skill}
                       </span>
@@ -368,7 +374,7 @@ function EventDetailsContent() {
             </div>
 
             {/* Organizer Info & Controls */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#002528] border border-slate-200/90 dark:border-teal-900/60 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-2xl bg-[#00494B] text-white flex items-center justify-center font-black text-xl shadow-md">
                   {event.organizer?.name?.charAt(0).toUpperCase() || "O"}
@@ -380,7 +386,7 @@ function EventDetailsContent() {
                   <h4 className="text-base font-bold text-slate-900 dark:text-white">
                     {event.organizer?.name || "Community Partner"}
                   </h4>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-slate-500 dark:text-teal-300/70">
                     {event.organizer?.email || "organizer@volunexa.com"}
                   </p>
                 </div>
@@ -409,9 +415,9 @@ function EventDetailsContent() {
 
           {/* Right Column: Live Capacity & Volunteer Registration */}
           <div className="space-y-6">
-            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl sticky top-24">
+            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#002528] border border-slate-200/90 dark:border-teal-900/60 shadow-xl sticky top-24">
               {/* Capacity Header */}
-              <div className="pb-5 border-b border-slate-100 dark:border-slate-800">
+              <div className="pb-5 border-b border-slate-100 dark:border-teal-900/60">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                     Volunteer Slots
@@ -540,14 +546,14 @@ function EventDetailsContent() {
                         <select
                           value={selectedSkill}
                           onChange={(e) => setSelectedSkill(e.target.value)}
-                          className="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00494B]"
+                          className="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-teal-900/60 bg-slate-50 dark:bg-[#001e21] text-xs font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00494B]"
                         >
                           {event.requiredSkills.map((skill, idx) => (
-                            <option key={idx} value={skill}>
+                            <option key={idx} value={skill} className="bg-white dark:bg-[#001e21]">
                               {skill}
                             </option>
                           ))}
-                          <option value="General Volunteer Support">
+                          <option value="General Volunteer Support" className="bg-white dark:bg-[#001e21]">
                             General Volunteer Support
                           </option>
                         </select>
@@ -558,7 +564,7 @@ function EventDetailsContent() {
                           value={selectedSkill}
                           onChange={(e) => setSelectedSkill(e.target.value)}
                           placeholder="e.g. Logistics, First Aid, Organization"
-                          className="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00494B]"
+                          className="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-teal-900/60 bg-slate-50 dark:bg-[#001e21] text-xs font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00494B]"
                         />
                       )}
                     </div>

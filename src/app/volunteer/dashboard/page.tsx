@@ -28,6 +28,11 @@ export default function VolunteerDashboardPage() {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [selectedQRReg, setSelectedQRReg] = useState<Registration | null>(null);
+  const [nowTime, setNowTime] = useState<number>(0);
+
+  useEffect(() => {
+    setNowTime(Date.now());
+  }, []);
 
   useEffect(() => {
     if (!authLoading && !isVolunteer) {
@@ -68,15 +73,10 @@ export default function VolunteerDashboardPage() {
     );
   }
 
-  const [nowTime, setNowTime] = useState<number>(0);
-
-  useEffect(() => {
-    setNowTime(Date.now());
-  }, []);
-
   const upcomingRegistrations = registrations.filter((r) => {
     const evt = r.event as EventItem;
-    return evt && new Date(evt.date).getTime() >= nowTime && r.status !== "cancelled";
+    if (!evt || !evt.date) return false;
+    return new Date(evt.date).getTime() >= (nowTime || 0) && r.status !== "cancelled";
   });
 
   return (
@@ -198,10 +198,13 @@ export default function VolunteerDashboardPage() {
                 const evt = reg.event as EventItem;
                 if (!evt) return null;
 
-                const formattedDate = new Date(evt.date).toLocaleDateString(
-                  "en-US",
-                  { weekday: "short", month: "short", day: "numeric" }
-                );
+                const formattedDate = evt.date
+                  ? new Date(evt.date).toLocaleDateString("en-US", {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                    })
+                  : "TBD";
 
                 return (
                   <div
