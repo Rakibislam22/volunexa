@@ -48,6 +48,10 @@ export const Navbar: React.FC = () => {
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
+  const notifRef = React.useRef<HTMLDivElement>(null);
+  const profileRef = React.useRef<HTMLDivElement>(null);
+  const headerRef = React.useRef<HTMLElement>(null);
+
   useEffect(() => {
     setMounted(true);
 
@@ -63,6 +67,59 @@ export const Navbar: React.FC = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close popups on outside click or escape key
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node;
+      if (
+        notifDropdownOpen &&
+        notifRef.current &&
+        !notifRef.current.contains(target)
+      ) {
+        setNotifDropdownOpen(false);
+      }
+      if (
+        profileDropdownOpen &&
+        profileRef.current &&
+        !profileRef.current.contains(target)
+      ) {
+        setProfileDropdownOpen(false);
+      }
+      if (
+        mobileMenuOpen &&
+        headerRef.current &&
+        !headerRef.current.contains(target)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setNotifDropdownOpen(false);
+        setProfileDropdownOpen(false);
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("touchstart", handleOutsideClick);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [notifDropdownOpen, profileDropdownOpen, mobileMenuOpen]);
+
+  // Close all popups when navigating to another route
+  useEffect(() => {
+    setNotifDropdownOpen(false);
+    setProfileDropdownOpen(false);
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   const formatTimeAgo = (dateStr: string) => {
     try {
@@ -83,6 +140,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <header
+      ref={headerRef}
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         scrolled || mobileMenuOpen
           ? "backdrop-blur-md bg-white/95 dark:bg-[#00191a]/95 border-b border-slate-200/80 dark:border-teal-900/40 shadow-sm"
@@ -227,7 +285,7 @@ export const Navbar: React.FC = () => {
 
             {/* Realtime Notifications Dropdown */}
             {mounted && isAuthenticated && (
-              <div className="relative">
+              <div ref={notifRef} className="relative">
                 <button
                   onClick={() => {
                     setNotifDropdownOpen(!notifDropdownOpen);
@@ -380,7 +438,7 @@ export const Navbar: React.FC = () => {
 
             {/* User Profile or Login/Register */}
             {mounted && isAuthenticated ? (
-              <div className="relative">
+              <div ref={profileRef} className="relative">
                 <button
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
                   className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
@@ -633,6 +691,14 @@ export const Navbar: React.FC = () => {
             </div>
           )}
         </div>
+      )}
+
+      {/* Mobile Drawer Overlay Backdrop */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 top-16 sm:top-18 bg-black/50 backdrop-blur-sm z-30 md:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        />
       )}
 
       {/* Real-time Server Push In-App Toast Alert */}

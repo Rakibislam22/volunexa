@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../../context/AuthContext";
+import { useModal } from "../../../context/ModalContext";
 import { api } from "../../../services/api";
 import { Registration, EventItem } from "../../../types";
 import { EventQRModal } from "../../../components/events/EventQRModal";
@@ -23,6 +24,7 @@ import {
 export default function MyEventsPage() {
   const router = useRouter();
   const { user, isVolunteer, loading: authLoading } = useAuth();
+  const { showConfirm } = useModal();
 
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,35 +64,36 @@ export default function MyEventsPage() {
     }
   }, [isVolunteer]);
 
-  const handleCancelRegistration = async (regId: string, eventTitle: string) => {
-    if (
-      !window.confirm(
-        `Are you sure you want to cancel your registration for "${eventTitle}"? This will free up your volunteer slot for others.`
-      )
-    ) {
-      return;
-    }
-
-    setCancellingId(regId);
-    try {
-      const res = await api.cancelRegistration(regId);
-      if (res.success) {
-        setRegistrations((prev) =>
-          prev.map((r) => (r._id === regId ? { ...r, status: "cancelled" } : r))
-        );
-        setMessage({
-          type: "success",
-          text: "Registration cancelled. The available slot was returned in real-time.",
-        });
-      }
-    } catch (err: any) {
-      setMessage({
-        type: "error",
-        text: err.message || "Failed to cancel registration.",
-      });
-    } finally {
-      setCancellingId(null);
-    }
+  const handleCancelRegistration = (regId: string, eventTitle: string) => {
+    showConfirm({
+      title: "Cancel Registration?",
+      message: `Are you sure you want to cancel your registration for "${eventTitle}"? This will free up your volunteer slot for others.`,
+      type: "warning",
+      confirmText: "Yes, Cancel Registration",
+      cancelText: "Keep My Spot",
+      onConfirm: async () => {
+        setCancellingId(regId);
+        try {
+          const res = await api.cancelRegistration(regId);
+          if (res.success) {
+            setRegistrations((prev) =>
+              prev.map((r) => (r._id === regId ? { ...r, status: "cancelled" } : r))
+            );
+            setMessage({
+              type: "success",
+              text: "Registration cancelled. The available slot was returned in real-time.",
+            });
+          }
+        } catch (err: any) {
+          setMessage({
+            type: "error",
+            text: err.message || "Failed to cancel registration.",
+          });
+        } finally {
+          setCancellingId(null);
+        }
+      },
+    });
   };
 
   if (authLoading || loading) {

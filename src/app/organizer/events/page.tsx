@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../../context/AuthContext";
+import { useModal } from "../../../context/ModalContext";
 import { api } from "../../../services/api";
 import { EventItem } from "../../../types";
 import {
@@ -24,6 +25,7 @@ import {
 export default function ManageEventsPage() {
   const router = useRouter();
   const { isOrganizer, loading: authLoading } = useAuth();
+  const { showConfirm } = useModal();
 
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,27 +79,28 @@ export default function ManageEventsPage() {
     }
   };
 
-  const handleDeleteEvent = async (eventId: string, eventTitle: string) => {
-    if (
-      !window.confirm(
-        `Are you sure you want to delete "${eventTitle}"? This will also remove all volunteer registrations for this event.`
-      )
-    ) {
-      return;
-    }
-
-    setActionLoading(eventId);
-    try {
-      const res = await api.deleteEvent(eventId);
-      if (res.success) {
-        setEvents((prev) => prev.filter((e) => e._id !== eventId));
-        setMessage({ type: "success", text: "Event successfully deleted." });
-      }
-    } catch (err: any) {
-      setMessage({ type: "error", text: err.message || "Failed to delete event." });
-    } finally {
-      setActionLoading(null);
-    }
+  const handleDeleteEvent = (eventId: string, eventTitle: string) => {
+    showConfirm({
+      title: "Delete Event?",
+      message: `Are you sure you want to delete "${eventTitle}"? This will permanently remove the event and all volunteer registrations.`,
+      type: "danger",
+      confirmText: "Delete Event",
+      cancelText: "Keep Event",
+      onConfirm: async () => {
+        setActionLoading(eventId);
+        try {
+          const res = await api.deleteEvent(eventId);
+          if (res.success) {
+            setEvents((prev) => prev.filter((e) => e._id !== eventId));
+            setMessage({ type: "success", text: "Event successfully deleted." });
+          }
+        } catch (err: any) {
+          setMessage({ type: "error", text: err.message || "Failed to delete event." });
+        } finally {
+          setActionLoading(null);
+        }
+      },
+    });
   };
 
   if (authLoading || loading) {

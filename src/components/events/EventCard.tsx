@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { EventItem } from "../../types";
 import { useAuth } from "../../context/AuthContext";
+import { useModal } from "../../context/ModalContext";
 import { api } from "../../services/api";
 import { getSocket } from "../../services/socket";
 import {
@@ -25,6 +26,7 @@ interface EventCardProps {
 
 export const EventCard: React.FC<EventCardProps> = ({ event: initialEvent, onShare }) => {
   const { isAuthenticated, isVolunteer } = useAuth();
+  const { showAlert, showAuthRequired } = useModal();
   const [event, setEvent] = useState<EventItem>(initialEvent);
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
   const [favLoading, setFavLoading] = useState<boolean>(false);
@@ -75,7 +77,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event: initialEvent, onSha
     e.preventDefault();
     e.stopPropagation();
     if (!isAuthenticated) {
-      alert("Please log in to save events to your favorites!");
+      showAuthRequired("Please sign in or create an account to save events to your favorites!");
       return;
     }
     setFavLoading(true);
@@ -98,7 +100,12 @@ export const EventCard: React.FC<EventCardProps> = ({ event: initialEvent, onSha
       navigator.clipboard.writeText(
         `${window.location.origin}/events/${event._id}`
       );
-      alert("Event link copied to clipboard!");
+      showAlert({
+        title: "Link Copied! 🔗",
+        message: `The link for "${event.title}" has been copied to your clipboard.`,
+        type: "success",
+        confirmText: "Great",
+      });
     }
   };
 

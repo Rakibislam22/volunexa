@@ -6,6 +6,7 @@ import Link from "next/link";
 import { EventItem, Registration } from "../../../types";
 import { api } from "../../../services/api";
 import { useAuth } from "../../../context/AuthContext";
+import { useModal } from "../../../context/ModalContext";
 import {
   getSocket,
   joinEventRoom,
@@ -37,6 +38,7 @@ function EventDetailsContent() {
   const id = typeof params?.id === "string" ? params.id : Array.isArray(params?.id) ? params.id[0] : "";
   const router = useRouter();
   const { user, isAuthenticated, isOrganizer, isVolunteer } = useAuth();
+  const { showAuthRequired } = useModal();
 
   const [event, setEvent] = useState<EventItem | null>(null);
   const [loading, setLoading] = useState(true);
@@ -200,7 +202,7 @@ function EventDetailsContent() {
 
   const handleToggleFavorite = async () => {
     if (!isAuthenticated) {
-      alert("Please log in to save events.");
+      showAuthRequired("Please sign in or create an account to save this event to your favorites.");
       return;
     }
     try {
