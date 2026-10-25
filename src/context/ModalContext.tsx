@@ -181,12 +181,16 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
         <div
           role="dialog"
           aria-modal="true"
+          data-lenis-prevent
           className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-200"
           onClick={(e) => {
             if (e.target === e.currentTarget) closeModal();
           }}
         >
-          <div className="relative w-full max-w-md bg-white dark:bg-[#002528] rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-200/90 dark:border-teal-900/60 transition-all transform animate-in fade-in zoom-in-95 duration-200">
+          <div
+            data-lenis-prevent
+            className="relative w-full max-w-md bg-white dark:bg-[#002528] rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-200/90 dark:border-teal-900/60 transition-all transform animate-in fade-in zoom-in-95 duration-200"
+          >
             {/* Close Button */}
             <button
               onClick={closeModal}

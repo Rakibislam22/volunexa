@@ -306,7 +306,10 @@ export const Navbar: React.FC = () => {
 
                 {/* Notifications Menu */}
                 {notifDropdownOpen && (
-                  <div className="fixed sm:absolute top-16 sm:top-auto sm:right-0 inset-x-3 sm:inset-auto sm:mt-2 sm:w-96 rounded-2xl bg-white dark:bg-[#002528] shadow-2xl border border-slate-200 dark:border-teal-900/40 overflow-hidden z-50">
+                  <div
+                    data-lenis-prevent
+                    className="fixed sm:absolute top-16 sm:top-auto sm:right-0 inset-x-3 sm:inset-auto sm:mt-2 sm:w-96 rounded-2xl bg-white dark:bg-[#002528] shadow-2xl border border-slate-200 dark:border-teal-900/40 overflow-hidden z-50"
+                  >
                     <div className="p-3.5 bg-slate-50 dark:bg-[#001f21] border-b border-slate-200 dark:border-teal-900/40 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Bell className="w-4 h-4 text-[#00494B] dark:text-teal-400" />
@@ -457,7 +460,10 @@ export const Navbar: React.FC = () => {
                 </button>
 
                 {profileDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 p-2 z-50">
+                  <div
+                    data-lenis-prevent
+                    className="absolute right-0 mt-2 w-56 rounded-2xl bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 p-2 z-50"
+                  >
                     <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-800 mb-1">
                       <p className="text-xs font-semibold text-slate-500">
                         Signed in as
@@ -560,7 +566,10 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden px-4 pt-2 pb-6 border-b border-slate-200 dark:border-teal-900/50 bg-white dark:bg-[#00191a] space-y-1">
+        <div
+          data-lenis-prevent
+          className="md:hidden px-4 pt-2 pb-6 border-b border-slate-200 dark:border-teal-900/50 bg-white dark:bg-[#00191a] space-y-1"
+        >
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
